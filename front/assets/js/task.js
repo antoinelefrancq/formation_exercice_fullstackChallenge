@@ -6,14 +6,19 @@ const taskManager = {
      * Récupére la liste des tâches depuis l'API.
      */
     fetchAndInsertTasksFromApi: async function (event) {
-
-
-        // Récupère la liste des tâches à l'aide de la fonction fetch()
-
-        // Boucle sur la liste des tâches
-
-        // pour chaque tâche appeler la fonction insertTaskInHtml()
-
+        try {
+            const response = await fetch(`${taskManager.apiEndpoint}/tasks`);
+            if (!response.ok) {
+                throw new Error(response.status);
+            }
+            const json = await response.json();
+            for (const task of json) {
+                    taskManager.insertTaskInHtml(task);
+                }
+        } catch (error) {
+            alert('Impossible de récupérer les taches depuis l\'API !');
+            console.error(error);
+        }
     },
 
     /**
