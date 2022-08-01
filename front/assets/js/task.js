@@ -110,12 +110,18 @@ const taskManager = {
 				method: 'DELETE',
 			});
 			if (!response.ok) throw new Error(response.status);
-
+            document.querySelectorAll('.notification').forEach(notif=>{
+                notif.remove()
+            })
             const template = document.getElementById('deleteAnnoncement')
             const nodeList = document.importNode(template.content,true)
             nodeList.querySelector('.delete').addEventListener('click',taskManager.removeNotification);
             taskHtmlElement.before(nodeList)
             // On supprime l'élément dans la page HTML
+            const notif = document.querySelector('.notification')
+            
+            if (notif) 
+            setTimeout(() => {notif.remove()}, 2400);
 			taskHtmlElement.remove();
 		} catch (error) {
 			// Gestion d'erreur
@@ -182,7 +188,10 @@ const taskManager = {
     },
 
     removeNotification(event){
-        event.target.closest('.notification').remove()
-    }
-
+        const notif = event.target.closest('.notification')
+        notif.classList.add('removed')
+        setTimeout(() => {
+            notif.remove()
+        }, 450);
+    },
 };

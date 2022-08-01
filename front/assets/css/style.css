@@ -14,3 +14,42 @@
 .task__edit-form {
     display: none;
 }
+
+.notification {
+    animation: 0.5s 2s fade;
+    -webkit-animation: 0.5s 2s fade;
+    -moz-animation: 0.5s 2s fade;
+}
+
+.removed{
+    animation: 0.5s hiding;
+    -webkit-animation: 0.5s hiding;
+    -moz-animation: 0.5s hiding;
+  }
+
+  /* Animate opacity */
+  @keyframes fade {
+    from { opacity: 1; transform:scaleY(1) }
+    to { opacity: 0; transform:scaleY(0) }
+  }
+  @-moz-keyframes fade {
+    from { opacity: 1; transform:scaleY(1) }
+    to { opacity: 0; transform:scaleY(0) }
+  }
+  @-webkit-keyframes fade {
+    from { opacity: 1; transform:scaleY(1) }
+    to { opacity: 0; transform:scaleY(0) }
+  }
+
+  @keyframes hiding {
+    from { opacity: 1; transform:scaleY(1) }
+    to { opacity: 0; transform:scaleY(0) }
+  }
+  @-moz-keyframes fade {
+    from { opacity: 1; transform:scaleY(1) }
+    to { opacity: 0; transform:scaleY(0) }
+  }
+  @-webkit-keyframes fade {
+    from { opacity: 1; transform:scaleY(1) }
+    to { opacity: 0; transform:scaleY(0) }
+  }
