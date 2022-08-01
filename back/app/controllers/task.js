@@ -58,10 +58,8 @@ const taskController = {
             if (!Number(req.params.id)) throw new Error("id is required and is a number");
             const task = await Task.findByPk(req.params.id);
             await task.destroy();
-            res.json({
-                status: 'ok',
-                action: `task at id : ${req.params.id}, is deleted` 
-            });
+            
+            res.status(204).json();
 
         } catch (err) {
             // GESTION D'ERREUR

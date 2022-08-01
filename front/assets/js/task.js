@@ -66,17 +66,31 @@ const taskManager = {
      * 
      * @param {Event} event 
      */
-    handleCreateForm: function (event) {
+    handleCreateForm: async function (event) {
         // Bloquer l'envoie du formulaire
         event.preventDefault();
-
+        console.log(event.currentTarget)
         // Récupérer les données du formulaire
         const taskFormData = new FormData(event.currentTarget);
 
         // Envoyer les données à l'API
-
-        // Après confirmation de l'API insérer la tâche dans la page (il y a une fonction toute prete pour ça ;) 
+        try {
+			const response = await fetch(`${taskManager.apiEndpoint}/tasks`, {
+				method: 'POST',
+				body: taskFormData,
+			});
+			if (!response.ok) {
+				throw new Error(response.status);
+			}
+			const taskObject = await response.json();
+	     // Après confirmation de l'API insérer la tâche dans la page (il y a une fonction toute prete pour ça ;) 
         // en utilisant la valeur de retour de l'API
+			taskManager.insertTaskInHtml(taskObject);
+		} catch (error) {
+			console.error(error);
+			alert('Impossible de créer la tâche !');
+		}
+   
 
     },
 
@@ -85,15 +99,26 @@ const taskManager = {
      * 
      * @param {Event} event 
      */
-    handleDeleteButton: function (event) {
+    handleDeleteButton: async function (event) {
 
         // On récupère l'ID de l'élément à supprimer
         const taskHtmlElement = event.currentTarget.closest('.task');
         const taskId = taskHtmlElement.dataset.id;
 
         // On envoie la requete de suppression à l'API
-
-        // On supprime l'élément dans la page HTML
+        try {
+			const response = await fetch(`${taskManager.apiEndpoint}/tasks/${taskId}`, {
+				method: 'DELETE',
+			});
+			if (!response.ok) throw new Error(response.status);
+            // On supprime l'élément dans la page HTML
+			taskHtmlElement.remove();
+		} catch (error) {
+			// Gestion d'erreur
+			console.error(error);
+			alert('Impossible de supprimer la liste !');
+		}
+        
 
     },
 
@@ -116,7 +141,7 @@ const taskManager = {
      * 
      * @param {Event} event 
      */
-    handleEditForm: function (event) {
+    handleEditForm: async function (event) {
         // Bloquer l'envoie du formulaire
         event.preventDefault();
 
@@ -130,14 +155,26 @@ const taskManager = {
         const taskId = taskFormData.get('id');
 
         // Envoyer les données à l'API
-
-
-        // Après confirmation de l'API modifier le nom de la tâche dans le span.task__name
+        try {
+			const response = await fetch(`${taskManager.apiEndpoint}/tasks/${taskId}`, {
+				method: 'PUT',
+				body: taskFormData,
+			});
+			const updateTaskObject = await response.json();
+            console.log(updateTaskObject)
+			if (!response.ok) throw new Error(response.status);
+            // Après confirmation de l'API modifier le nom de la tâche dans le span.task__name
+			taskHtmlElement.querySelector('.task__name').textContent = updateTaskObject.name;
+		} catch (error) {
+			console.error(error);
+			alert('Impossible de modifier la liste !');
+        }
+        
 
         // On affiche l'input de modification
         taskHtmlElement.querySelector('.task__edit-form').style.display = 'none';
         // On masque le titre
-        taskHtmlElement.querySelector('.task__name').style.display = 'block';
+        taskHtmlElement.querySelector('.task__name').style.display = 'block';    
     }
 
 };
