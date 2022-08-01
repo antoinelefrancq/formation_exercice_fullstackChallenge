@@ -22,7 +22,7 @@ const taskController = {
             // Test des propriétés
             if (!name) throw new Error("name can't be empty");
             let newTask = await Task.create(
-                name
+                {name}
             );
             res.json(newTask);
         } catch (err) {
@@ -32,7 +32,7 @@ const taskController = {
         }
     },
 
-    update: async(req,res)=>{
+    update: async (req,res)=>{
         try {
             if (!Number(req.params.id)) throw new Error("id is required and is a number");
 

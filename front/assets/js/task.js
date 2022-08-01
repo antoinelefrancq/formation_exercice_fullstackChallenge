@@ -69,7 +69,6 @@ const taskManager = {
     handleCreateForm: async function (event) {
         // Bloquer l'envoie du formulaire
         event.preventDefault();
-        console.log(event.currentTarget)
         // Récupérer les données du formulaire
         const taskFormData = new FormData(event.currentTarget);
 
@@ -90,7 +89,7 @@ const taskManager = {
 			console.error(error);
 			alert('Impossible de créer la tâche !');
 		}
-   
+        event.target.reset();
 
     },
 
@@ -111,6 +110,11 @@ const taskManager = {
 				method: 'DELETE',
 			});
 			if (!response.ok) throw new Error(response.status);
+
+            const template = document.getElementById('deleteAnnoncement')
+            const nodeList = document.importNode(template.content,true)
+            nodeList.querySelector('.delete').addEventListener('click',taskManager.removeNotification);
+            taskHtmlElement.before(nodeList)
             // On supprime l'élément dans la page HTML
 			taskHtmlElement.remove();
 		} catch (error) {
@@ -175,6 +179,10 @@ const taskManager = {
         taskHtmlElement.querySelector('.task__edit-form').style.display = 'none';
         // On masque le titre
         taskHtmlElement.querySelector('.task__name').style.display = 'block';    
+    },
+
+    removeNotification(event){
+        event.target.closest('.notification').remove()
     }
 
 };

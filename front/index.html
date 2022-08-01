@@ -16,6 +16,7 @@
 <body>
 
     <div class="container is-max-desktop p-3">
+        
         <h1 class="title is-3 has-text-centered">Mes tâches à faire</h1>
 
        <div class="tasks">
@@ -37,7 +38,7 @@
                 </div>
             </div>
         </form>
-
+        
     </div>
 
 <!-- template -->
@@ -61,10 +62,17 @@
         </div>
 
     </template>
+
+    <template id="deleteAnnoncement">
+        <div class="notification is-success">
+            <button class="delete"></button>
+            La tâche a bien été supprimée 
+          </div>
+    </template>
 <!-- fin du template -->
     <script src="./assets/js/app.js"></script>
     <script src="./assets/js/task.js"></script>
-
+    
 </body>
 
 </html>
